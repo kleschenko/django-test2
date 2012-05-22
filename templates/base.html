@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}Title{% endblock %}</title>
+    <style type="text/css">
+        .container { margin:auto; width:640px; }
+        .contacts { float:right;width:300px; }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

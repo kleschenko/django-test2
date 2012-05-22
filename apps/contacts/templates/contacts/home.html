@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{% if person %}{{ person.name }} {{ person.surname }}{% endif %}{% endblock %}
+{% block content %}
+{% if person %}
+<div class="contacts">
+    <h3>Contacts:</h3>
+    <h4>Email</h4> {{ person.email }}
+    {% if person.jabber %}
+    <h4>Jabber</h4> {{ person.jabber }}
+    {% endif %}
+    {% if person.skype %}
+    <h4>Skype</h4> {{ person.skype }}
+    {% endif %}
+    {% if person.other_contacts %}
+    <h4>Other contacts</h4> {{ person.other_contacts }}
+    {% endif %}
+</div>
+<h1>{{ person.name }}</h1>
+<h1>{{ person.surname }}</h1>
+<h3>{{ person.birth_date|date:"m.d.Y" }}</h3>
+<h4>Bio:</h4>
+{{ person.bio }}
+{% else %}
+Blank page
+{% endif %}
+{% endblock %}
