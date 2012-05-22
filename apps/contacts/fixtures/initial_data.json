@@ -1,0 +1,1 @@
+[{"pk": 1, "model": "contacts.person", "fields": {"bio": "My bio", "surname": "Leschenko", "name": "Kostyantyn", "other_contacts": "", "skype": "settler_kos", "birth_date": "1987-08-02", "jabber": "k.s.leschenko@gmail.com", "email": "k.s.leschenko@gmail.com"}}]
