@@ -3,24 +3,25 @@
 {% block content %}
 {% if person %}
 <div class="contacts">
-    <h3>Contacts:</h3>
-    <h4>Email</h4> {{ person.email }}
+    <p>Contacts</p>
+    <p>Email: {{ person.email }}</p>
     {% if person.jabber %}
-    <h4>Jabber</h4> {{ person.jabber }}
+    <p>Jabber: {{ person.jabber }}</p>
     {% endif %}
     {% if person.skype %}
-    <h4>Skype</h4> {{ person.skype }}
+    <p>Skype: {{ person.skype }}</p>
     {% endif %}
     {% if person.other_contacts %}
-    <h4>Other contacts</h4> {{ person.other_contacts }}
+    <p>Other contacts:<br />{{ person.other_contacts }}</p>
     {% endif %}
 </div>
-<h1>{{ person.name }}</h1>
-<h1>{{ person.surname }}</h1>
-<h3>{{ person.birth_date|date:"m.d.Y" }}</h3>
-<h4>Bio:</h4>
-{{ person.bio }}
+<div class="info">
+    <p>{{ person.name }}</p>
+    <p>{{ person.surname }}</p>
+    <p>{{ person.birth_date|date:"m.d.Y" }}</p>
+    <p>Bio:<br />{{ person.bio }}</p>
+</div>
 {% else %}
-Blank page
+<p>There are no contacts in the database</p>
 {% endif %}
 {% endblock %}

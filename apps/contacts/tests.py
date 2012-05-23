@@ -9,3 +9,4 @@ class HttpTest(TestCase):
         self.assertTrue('person' in response.context)
         person = response.context['person']
         self.assertTrue(person.name)
+        self.assertContains(response, 'Contacts')
