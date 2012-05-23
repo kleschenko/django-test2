@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Requests log{% endblock %}
+{% block content %}
+<h2>Requests log</h2>
+    <ul>
+        {% for entry in logs %}
+        <li><a href="{{ entry.get_absolute_url }}">[{{ entry.dtime|date:"d.m.Y H:i:s" }}] "{{ entry.method }} {{ entry.path }}"</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}
