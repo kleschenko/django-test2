@@ -1,5 +1,6 @@
 import sys
 import os
+from django.conf import global_settings
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -64,6 +65,10 @@ MIDDLEWARE_CLASSES = (
     'logs.middleware.LogRequestsMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+        'contacts.context_processors.django_settings',
 )
 
 ROOT_URLCONF = 'django_test.urls'
