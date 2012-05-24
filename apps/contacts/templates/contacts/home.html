@@ -13,13 +13,16 @@
     {% endif %}
     {% if person.other_contacts %}
     <p>Other contacts:<br />{{ person.other_contacts }}</p>
+    <p>Bio:<br />{{ person.bio }}</p>
     {% endif %}
 </div>
 <div class="info">
     <p>{{ person.name }}</p>
     <p>{{ person.surname }}</p>
     <p>{{ person.birth_date|date:"m.d.Y" }}</p>
-    <p>Bio:<br />{{ person.bio }}</p>
+    <p>Photo:<br />
+    {% if person.photo %}<img src="{{ person.photo.url }}" width="330" />
+    {% else %}There isn't uploaded photo yet.{% endif %}</p>
 </div>
 {% else %}
 <p>There are no contacts in the database</p>
