@@ -10,3 +10,8 @@ class HttpTest(TestCase):
         person = response.context['person']
         self.assertTrue(person.name)
         self.assertContains(response, 'Contacts')
+
+    def test_context_processor(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('settings' in response.context)
