@@ -12,15 +12,11 @@ from logs.models import Entry
 
 class HttpTest(TestCase):
     def test_logs(self):
-        entry = Entry.objects.create(method='GET',
-                path='/', meta='HTTP_HOST: localhost')
-        entry.save()
+        entries_count = Entry.objects.count()
+        response = self.client.get('/my_not_existing_url')
+        new_entries_count = Entry.objects.count()
         response = self.client.get(reverse('logs_list'))
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(new_entries_count - entries_count, 1)
         self.assertTrue('logs' in response.context)
         self.assertContains(response, 'GET')
-
-        response = self.client.get(reverse('logs_detail', args=[entry.id]))
-        self.assertEqual(response.status_code, 200)
-        self.assertTrue('entry' in response.context)
-        self.assertContains(response, 'HTTP_HOST')
+        self.assertContains(response, 'my_not_existing_url')
