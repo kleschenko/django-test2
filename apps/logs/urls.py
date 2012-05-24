@@ -6,6 +6,7 @@ urlpatterns = patterns('',
     url(r'^$', ListView.as_view(
             queryset=Entry.objects.order_by('dtime')[:10],
             template_name='logs/index.html',
+            context_object_name='logs',
         ), name='logs_list'),
     url(r'^view/(?P<pk>\d+)/$', DetailView.as_view(
             model=Entry,
