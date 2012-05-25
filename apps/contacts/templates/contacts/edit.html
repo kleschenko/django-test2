@@ -3,6 +3,7 @@
 {% block head %}
 <script type="text/javascript" src="{{ STATIC_URL }}contacts/js/jquery-1.7.2.min.js"></script> 
 <script type="text/javascript" src="{{ STATIC_URL }}contacts/js/edit.js"></script> 
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}contacts/css/style.css"></script> 
 {% endblock %}
 {% block content %}
 {% if form %}
@@ -12,19 +13,16 @@
     <div class="error">{{ e }}</div><br />
     {% endfor %}
     <div class="contacts">
-        <h3>Contacts:</h3>
     </div>
-    <div class="main">
-        <h3>Info:</h3>
+    <div class="info">
         {% for field in form %}
         <div class="input">
             {% if field.errors %}
             <div class="error">{{ field.errors }}</div>
             {% endif %}
-            <p>{{ field.label }}: {{ field }}</p>
+            <p><label for="{{ field.auto_id }}">{{ field.label }}:</label> {{ field }}</p>
         </div>
         {% endfor %}
-        <div class="input"><img src="{{ MEDIA_URL }}{{ form.photo.value }}" width="330" /></div>
     </div>
     <div style="clear:both;"></div>
     <input type="submit" value="Save" /> <a href="{% url contacts_home %}">Cancel</a>

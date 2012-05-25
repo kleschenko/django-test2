@@ -38,6 +38,8 @@ MEDIA_ROOT = os.path.join(PROJECT_ROOT, MEDIA_URL.strip('/'))
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, STATIC_URL.strip('/'))
 
+LOGIN_REDIRECT_URL = '/'
+
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
