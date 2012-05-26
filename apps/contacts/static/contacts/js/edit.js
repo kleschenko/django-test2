@@ -10,6 +10,12 @@ function apply_form_field_error(fieldname, error) {
     container.prepend(error_msg);
 }
 
+function add_non_field_errors(error) {
+    var container = $("#edit_form"),
+        error_msg = $("<div></div>").addClass("error").text(error);
+    container.prepend(error_msg);
+}
+
 function clear_form_field_errors(form) {
     $(".error", $(form)).remove();
 }
@@ -46,7 +52,7 @@ $(document).on("submit", "#edit_form", function(e) {
                 var errors = $.parseJSON(data.responseText);
                 $.each(errors, function(index, value) {
                     if (index === "__all__") {
-                        alert('error');
+                        add_non_field_errors(value[0]);
                     } else {
                         apply_form_field_error(index, value);
                     }
