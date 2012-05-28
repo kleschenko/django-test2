@@ -6,7 +6,7 @@ from django.template import Template, Context
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django.contrib.auth.models import User
-from contacts.models import Person
+from contacts.models import Person, ActionsEntry
 
 
 class HttpTest(TestCase):
@@ -91,3 +91,11 @@ class HttpTest(TestCase):
         err.close()
         self.assertTrue('User' in response)
         sys.stdout, sys.stderr = saved_streams
+
+    def test_signal(self):
+        actions_count = ActionsEntry.objects.count()
+        person = Person.objects.get(pk=1)
+        person.name = 'Test'
+        person.save()
+        new_actions_count = ActionsEntry.objects.count()
+        self.assertTrue(actions_count != new_actions_count)
