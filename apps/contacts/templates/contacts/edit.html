@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{% if person %}{{ person.name }} {{ person.surname }}{% endif %}{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}contacts/js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}contacts/js/edit.js"></script> 
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}contacts/css/style.css"></script> 
+{% endblock %}
+{% block content %}
+{% if form %}
+<form  action="" method="post" enctype='multipart/form-data'>
+    {% csrf_token %}
+    {% for e in form.non_field_errors %}
+    <div class="error">{{ e }}</div><br />
+    {% endfor %}
+    <div class="contacts">
+    </div>
+    <div class="info">
+        {% for field in form %}
+        <div class="input">
+            {% if field.errors %}
+            <div class="error">{{ field.errors }}</div>
+            {% endif %}
+            <p><label for="{{ field.auto_id }}">{{ field.label }}:</label> {{ field }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div style="clear:both;"></div>
+    <input type="submit" value="Save" /> <a href="{% url contacts_home %}">Cancel</a>
+</form>
+{% else %}
+Blank page
+{% endif %}
+{% endblock %}

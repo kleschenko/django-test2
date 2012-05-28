@@ -3,3 +3,4 @@
 *.pyc
 local.db
 local_settings.py
+media/*
