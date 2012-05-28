@@ -26,9 +26,8 @@ class PersonUpdateView(UpdateView):
     success_url = '/'
 
     def get_object(self, queryset=None):
-        queryset = Person.objects.all()
         try:
-            obj = queryset.get()
+            obj = Person.objects.get(id=1)
         except ObjectDoesNotExist:
             raise Http404(u"No contacts records found in the database")
         return obj
