@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from contacts.models import Person
@@ -22,6 +23,26 @@ class ImagePreviewInput(forms.FileInput):
         return mark_safe(result)
 
 
+class CalendarWidget(forms.DateInput):
+
+    def __init__(self, attrs=None, format=None):
+        new_attrs = attrs or {}
+        new_attrs.update({'class': 'datepicker'})
+        super(CalendarWidget, self).__init__(new_attrs, format)
+
+    class Media:
+        css = {
+            'all': (
+                settings.STATIC_URL + "contacts/css/jquery-ui-1.8.20.custom.css",
+            )
+        }
+        js = (
+            settings.STATIC_URL + "contacts/js/jquery-1.7.2.min.js",
+            settings.STATIC_URL + "contacts/js/jquery-ui-1.8.20.custom.min.js",
+            settings.STATIC_URL + "contacts/js/datepicker.js",
+        )
+
+
 class ContactsEditForm(forms.ModelForm):
 
     class Meta:
@@ -33,6 +54,7 @@ class ContactsEditForm(forms.ModelForm):
                 'other_contacts': forms.Textarea(attrs=attrs_right),
                 'bio': forms.Textarea(attrs=attrs_right),
                 'photo': ImagePreviewInput(image_width=330),
+                'birth_date': CalendarWidget(),
         }
         fields = ('name', 'surname', 'birth_date', 'photo', 'email',
                 'jabber', 'skype', 'other_contacts', 'bio')

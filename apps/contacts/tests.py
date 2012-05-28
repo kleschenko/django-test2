@@ -50,3 +50,18 @@ class HttpTest(TestCase):
         person = Person.objects.get(pk=1)
         self.assertTrue(fname in person.photo.name)
         os.remove(person.photo.path)
+
+    def test_contacts_ajax(self):
+        self.client.login(username='admin', password='admin')
+        form_data = {'name': 'Test', 'surname': 'Surname',
+                'birth_date': '1970-01-01',
+                'bio': 'Bio', 'email': 'test@example.com'}
+        response = self.client.post(reverse('contacts_edit'), form_data,
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 200)
+        person = Person.objects.get(pk=1)
+        self.assertEqual(person.name, 'Test')
+        form_data = {'name': 'Test', 'surname': 'Surname'}
+        response = self.client.post(reverse('contacts_edit'), form_data,
+                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.status_code, 400)

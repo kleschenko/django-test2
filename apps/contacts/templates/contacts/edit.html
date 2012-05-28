@@ -4,10 +4,13 @@
 <script type="text/javascript" src="{{ STATIC_URL }}contacts/js/jquery-1.7.2.min.js"></script> 
 <script type="text/javascript" src="{{ STATIC_URL }}contacts/js/edit.js"></script> 
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}contacts/css/style.css"></script> 
+{% if form %}
+    {{ form.media }}
+{% endif %}
 {% endblock %}
 {% block content %}
 {% if form %}
-<form  action="" method="post" enctype='multipart/form-data'>
+<form id="edit_form" action="{% url contacts_edit %}" method="post" enctype='multipart/form-data'>
     {% csrf_token %}
     {% for e in form.non_field_errors %}
     <div class="error">{{ e }}</div><br />
@@ -16,7 +19,7 @@
     </div>
     <div class="info">
         {% for field in form %}
-        <div class="input">
+        <div class="input" id="div_{{ field.auto_id }}">
             {% if field.errors %}
             <div class="error">{{ field.errors }}</div>
             {% endif %}
@@ -25,7 +28,7 @@
         {% endfor %}
     </div>
     <div style="clear:both;"></div>
-    <input type="submit" value="Save" /> <a href="{% url contacts_home %}">Cancel</a>
+    <p id="sendwrapper"><input id="sendbutton" type="submit" value="Save" /> <a href="{% url contacts_home %}">Cancel</a></p>
 </form>
 {% else %}
 Blank page
