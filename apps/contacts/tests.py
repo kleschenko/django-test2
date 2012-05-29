@@ -74,5 +74,4 @@ class HttpTest(TestCase):
                 "{% load object_url %}"
                 "{% edit_link some_obj %}"
             ).render(Context({'some_obj': user}))
-        print out
         self.assertTrue('auth/user' in out)
