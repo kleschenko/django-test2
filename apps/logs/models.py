@@ -2,7 +2,14 @@ from django.db import models
 
 
 class Entry(models.Model):
+
+    PRIORITY_CHOICES = (
+        (0, "Low"),
+        (1, "High"),
+    )
+
     dtime = models.DateTimeField(auto_now_add=True)
+    priority = models.SmallIntegerField(choices=PRIORITY_CHOICES, default=0)
     method = models.CharField(max_length=5)
     path = models.CharField(max_length=255)
     meta = models.TextField()
