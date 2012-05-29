@@ -6,7 +6,8 @@ from django.template import Template, Context
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django.contrib.auth.models import User
-from contacts.models import Person, ActionsEntry
+from django.db.models.signals import post_save
+from contacts.models import Person, ActionsEntry, log_operations
 
 
 class HttpTest(TestCase):
@@ -93,6 +94,7 @@ class HttpTest(TestCase):
         sys.stdout, sys.stderr = saved_streams
 
     def test_signal(self):
+        post_save.connect(log_operations)
         actions_count = ActionsEntry.objects.count()
         person = Person.objects.get(pk=1)
         person.name = 'Test'

@@ -32,7 +32,6 @@ def log_operations(sender, signal, **kwargs):
             action = 'deleted'
         action_entry = ActionsEntry(model_name=sender.__name__, action=action)
         action_entry.save()
-        print sender.__name__, action
 
 if not 'syncdb' in sys.argv and not 'migrate' in sys.argv and not 'test' in sys.argv:
     post_save.connect(log_operations)
