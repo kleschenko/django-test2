@@ -1,12 +1,14 @@
 import os
 import sys
 from cStringIO import StringIO
+from django.db import models
 from django.test import TestCase
 from django.template import Template, Context
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from django.contrib.contenttypes.models import ContentType
 from contacts.models import Person, ActionsEntry, log_operations
 
 
@@ -25,6 +27,8 @@ class HttpTest(TestCase):
         self.assertTrue('settings' in response.context)
 
     def test_contacts_edit_get(self):
+        response = self.client.get(reverse('contacts_edit'))
+        self.assertEqual(response.status_code, 302)
         self.client.login(username='admin', password='admin')
         response = self.client.get(reverse('contacts_edit'), follow=True)
         self.assertEqual(response.status_code, 200)
@@ -78,7 +82,14 @@ class HttpTest(TestCase):
             ).render(Context({'some_obj': user}))
         self.assertTrue('auth/user' in out)
 
+
+class CommandTest(TestCase):
     def test_command(self):
+        app = models.get_app('contacts')
+        app_models = models.get_models(app)
+        self.assertTrue(app_models)
+        ct = ContentType.objects.get_for_model(app_models[0])
+        model_name = ct.model
         saved_streams = sys.stdout, sys.stderr
         out = StringIO()
         err = StringIO()
@@ -87,10 +98,10 @@ class HttpTest(TestCase):
         call_command('list_models')
         response = out.getvalue()
         out.close()
-        self.assertTrue('User' in response)
+        self.assertTrue(model_name in response)
         response = err.getvalue()
         err.close()
-        self.assertTrue('User' in response)
+        self.assertTrue(model_name in response)
         sys.stdout, sys.stderr = saved_streams
 
     def test_signal(self):
