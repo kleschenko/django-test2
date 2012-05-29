@@ -1,8 +1,13 @@
 import os
+import sys
+from cStringIO import StringIO
+from django.db import models
 from django.test import TestCase
 from django.template import Template, Context
 from django.core.urlresolvers import reverse
+from django.core.management import call_command
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from contacts.models import Person
 
 
@@ -75,3 +80,25 @@ class HttpTest(TestCase):
                 "{% edit_link some_obj %}"
             ).render(Context({'some_obj': user}))
         self.assertTrue('auth/user' in out)
+
+
+class CommandTest(TestCase):
+    def test_command(self):
+        app = models.get_app('contacts')
+        app_models = models.get_models(app)
+        self.assertTrue(app_models)
+        ct = ContentType.objects.get_for_model(app_models[0])
+        model_name = ct.model
+        saved_streams = sys.stdout, sys.stderr
+        out = StringIO()
+        err = StringIO()
+        sys.stdout = out
+        sys.stderr = err
+        call_command('list_models')
+        response = out.getvalue()
+        out.close()
+        self.assertTrue(model_name in response)
+        response = err.getvalue()
+        err.close()
+        self.assertTrue(model_name in response)
+        sys.stdout, sys.stderr = saved_streams
