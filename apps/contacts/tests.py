@@ -1,6 +1,8 @@
 import os
 from django.test import TestCase
+from django.template import Template, Context
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 from contacts.models import Person
 
 
@@ -65,3 +67,11 @@ class HttpTest(TestCase):
         response = self.client.post(reverse('contacts_edit'), form_data,
                 HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.status_code, 400)
+
+    def test_template_tag(self):
+        user = User.objects.all()[0]
+        out = Template(
+                "{% load object_url %}"
+                "{% edit_link some_obj %}"
+            ).render(Context({'some_obj': user}))
+        self.assertTrue('auth/user' in out)
