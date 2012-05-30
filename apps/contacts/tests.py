@@ -7,8 +7,9 @@ from django.template import Template, Context
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 from django.contrib.contenttypes.models import ContentType
-from contacts.models import Person
+from contacts.models import Person, ActionsEntry, log_operations
 
 
 class HttpTest(TestCase):
@@ -102,3 +103,14 @@ class CommandTest(TestCase):
         err.close()
         self.assertTrue(model_name in response)
         sys.stdout, sys.stderr = saved_streams
+
+    def test_signal(self):
+        post_save.connect(log_operations)
+        actions_count = ActionsEntry.objects.count()
+        person = Person.objects.get(pk=1)
+        person.name = 'Test'
+        person.save()
+        entries = ActionsEntry.objects.order_by('-dtime')
+        new_actions_count = entries.count()
+        self.assertEqual(new_actions_count, actions_count + 1)
+        self.assertEqual(entries[0].action, 'changed')
