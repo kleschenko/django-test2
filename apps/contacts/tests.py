@@ -110,5 +110,7 @@ class CommandTest(TestCase):
         person = Person.objects.get(pk=1)
         person.name = 'Test'
         person.save()
-        new_actions_count = ActionsEntry.objects.count()
-        self.assertTrue(actions_count != new_actions_count)
+        entries = ActionsEntry.objects.order_by('-dtime')
+        new_actions_count = entries.count()
+        self.assertEqual(new_actions_count, actions_count + 1)
+        self.assertEqual(entries[0].action, 'changed')

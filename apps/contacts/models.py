@@ -23,6 +23,13 @@ class ActionsEntry(models.Model):
     model_name = models.CharField(max_length=30)
     action = models.CharField(max_length=10)
 
+    def __unicode__(self):
+        return '[%s]: %s %s' % (self.dtime.strftime('%d.%m.%Y %H:%M'),
+                self.action, self.model_name)
+
+    class Meta:
+        verbose_name_plural = 'actions'
+
 
 def log_operations(sender, signal, **kwargs):
     if sender != ActionsEntry:
