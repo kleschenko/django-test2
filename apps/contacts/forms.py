@@ -33,12 +33,12 @@ class CalendarWidget(forms.DateInput):
     class Media:
         css = {
             'all': (
-                settings.STATIC_URL + "contacts/css/jquery-ui-1.8.20.custom.css",
+                settings.STATIC_URL + "css/jquery-ui-1.8.20.custom.css",
             )
         }
         js = (
-            settings.STATIC_URL + "contacts/js/jquery-1.7.2.min.js",
-            settings.STATIC_URL + "contacts/js/jquery-ui-1.8.20.custom.min.js",
+            settings.STATIC_URL + "js/jquery-1.7.2.min.js",
+            settings.STATIC_URL + "js/jquery-ui-1.8.20.custom.min.js",
             settings.STATIC_URL + "contacts/js/datepicker.js",
         )
 
