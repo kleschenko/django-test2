@@ -3,10 +3,12 @@ $(document).ready(function() {
         changePriority($(this).attr('href'), -1);
         return false;
     });
+
     $('.plus').click(function() {
         changePriority($(this).attr('href'), 1);
         return false;
     });
+
     $('.sort a').click(function() {
         clearErrors();
         disableInputs();
@@ -27,6 +29,10 @@ $(document).ready(function() {
                             .append($('<a></a>')
                                 .attr('href', value['url'])
                                 .addClass('plus')
+                                .click(function() {
+                                    changePriority($(this).attr('href'), 1);
+                                    return false;
+                                })
                                 .text(' + '))
                             .append($('<div></div>')
                                 .attr('id', 'req'+value['id'])
@@ -34,6 +40,10 @@ $(document).ready(function() {
                             .append($('<a></a>')
                                 .attr('href', value['url'])
                                 .addClass('minus')
+                                .click(function() {
+                                    changePriority($(this).attr('href'), -1);
+                                    return false;
+                                })
                                 .text(' - '))
                             );
                         $(container).append(element);
