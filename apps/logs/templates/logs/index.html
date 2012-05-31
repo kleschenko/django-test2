@@ -1,10 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Requests log{% endblock %}
+{% block head %}
+<script type="text/javascript" src="{{ STATIC_URL }}logs/js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="{{ STATIC_URL }}logs/js/requests.js"></script> 
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}logs/css/style.css">
+{% endblock %}
 {% block content %}
 <h2>Requests log</h2>
     <ul>
+        <div class="sort">
+            sort:
+            <a href="{% url logs_list %}?descending=true">1..9</a>
+            <a href="{% url logs_list %}?descending=false">9..1</a>
+        </div>
         {% for entry in logs %}
-        <li><a href="{{ entry.get_absolute_url }}">[{{ entry.dtime|date:"d.m.Y H:i:s" }}] "{{ entry.method }} {{ entry.path }}"</a></li>
+        <li><a href="{{ entry.get_absolute_url }}">[{{ entry.dtime|date:"d.m.Y H:i:s" }}] "{{ entry.method }} {{ entry.path }}"</a>
+        <div class="priority">
+            <a href="{{ entry.get_absolute_url }}" class="plus">+</a>
+            <div id="req{{ entry.id }}">{{ entry.priority }}</div>
+            <a href="{{ entry.get_absolute_url }}" class="minus">-</a>
+        </div>
+        </li>
         {% endfor %}
     </ul>
 <div class="clr"></div>
