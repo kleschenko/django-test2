@@ -2,7 +2,9 @@ from django.db import models
 
 
 class Entry(models.Model):
+
     dtime = models.DateTimeField(auto_now_add=True)
+    priority = models.SmallIntegerField(default=0)
     method = models.CharField(max_length=5)
     path = models.CharField(max_length=255)
     meta = models.TextField()
