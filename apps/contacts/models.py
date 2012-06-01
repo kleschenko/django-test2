@@ -40,6 +40,8 @@ def log_operations(sender, signal, **kwargs):
         action_entry = ActionsEntry(model_name=sender.__name__, action=action)
         action_entry.save()
 
-if not 'syncdb' in sys.argv and not 'migrate' in sys.argv and not 'test' in sys.argv:
+EXCLUDED_COMMANDS = ['syncdb', 'migrate', 'test']
+
+if not any([command in sys.argv for command in EXCLUDED_COMMANDS]):
     post_save.connect(log_operations)
     post_delete.connect(log_operations)
