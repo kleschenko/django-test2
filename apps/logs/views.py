@@ -6,9 +6,6 @@ from django.views.generic.detail import SingleObjectMixin
 from logs.models import Entry
 
 
-#class ListRequests(ListView):
-#    template_name = 'logs/index.html'
-#    context_object_name = 'logs'
 class SingleRequestView(SingleObjectMixin, TemplateView):
     model = Entry
     template_name = 'logs/detail.html'
