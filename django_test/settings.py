@@ -93,6 +93,7 @@ INSTALLED_APPS = (
     'south',
     'contacts',
     'logs',
+    'django_coverage',
 )
 
 LOGGING = {
